@@ -1,6 +1,7 @@
 from flask import Blueprint, Flask, request
 from app.services.weather_data import show_cities_quantities, selected_response
 from json import dumps
+from app import cache
 
 bp_all_cities = Blueprint('all_blueprint', __name__)
 bp_city_name = Blueprint('cities_blueprint', __name__)
@@ -10,6 +11,7 @@ weather_list = []
 
 
 @bp_city_name.route('/weather/<city_name>', methods=["GET"])
+@cache.cached(timeout=15)
 def get(city_name):
 
     data = selected_response(city_name).data_dict()
