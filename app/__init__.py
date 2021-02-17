@@ -12,6 +12,8 @@ def create_app():
 
     cache.init_app(app)
     app.cache = cache
+    client = app.test_client()
+    app.testing = True
 
     config_views(app)
 
