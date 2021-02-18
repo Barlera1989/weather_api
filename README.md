@@ -2,43 +2,12 @@
 
 ## INITIAL CONFIGS:
 
-### 1 - Virtual Environment(venv):
-1.1 - Creating venv
+### 1 - Start server:
 
-On terminal, in Weather_API folder, type:
-
-```bash
-python -m venv venv
-```
-
-1.2 - Entering venv
-
-still on terminal, in Weather_API folder, type:
+To start the server, on terminal, type: 
 
 ```bash
-source venv/bin/activate
-```
-
-(if everything works correctly, a (venv) word should
- appear before the current path on terminal.)
-____________________________________________________
-
-### 2 - Installing requirements:
-(You should have the venv activated, otherwise it won't work correctly)
-
-To install all the packages that is needed to this repo, type on terminal:
-
-```bash
-pip install -r requirements.txt
-```
-_______________________________
-
-### 3 - Start server:
-
-To run flask server, on terminal, type: 
-
-```bash
-flask run
+docker-compose up
 ```
 
 Now the API is ready to interact with the endPoints listed below!
