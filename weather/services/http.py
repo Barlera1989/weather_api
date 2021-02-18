@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-
 def build_api_response(http_status):
     return build_response_message(http_status), http_status
 

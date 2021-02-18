@@ -1,24 +1,23 @@
 from flask import Blueprint, Flask, request
-from app.services.weather_data import show_cities_quantities, selected_response
 from json import dumps
-from app import cache
-from app.services.http import build_api_response, build_response_message
 from http import HTTPStatus
 
+from weather.services.weather_data import show_cities_quantities, selected_response
+from weather.services.http import build_api_response, build_response_message
+from weather.ext import cache
 
-bp_all_cities = Blueprint('all_blueprint', __name__)
-bp_city_name = Blueprint('cities_blueprint', __name__)
-bp_teste = Blueprint('teste_blueprint', __name__)
+
+bp_weather_api = Blueprint('weather_api', __name__)
 
 weather_list = []
 
 
-@bp_city_name.route('/weather/<city_name>', methods=["GET"])
+@bp_weather_api.route('/weather/<city_name>', methods=["GET"])
 @cache.cached(timeout=300)
-def get(city_name):
+def get_city_name(city_name):
 
     try:
-        data = selected_response(city_name).data_dict()
+        data = selected_response(city_name).__dict__
 
         if len(weather_list) >= 5:
             weather_list.insert(0, data)
@@ -28,13 +27,13 @@ def get(city_name):
             weather_list.insert(0, data)
 
         return dumps(data)
-    except:
+    except Exception as error:
+        print(error)
         return build_api_response(HTTPStatus.BAD_REQUEST)
 
 
-@bp_all_cities.route('/weather', methods=["GET"])
-def get():
-
+@bp_weather_api.route('/weather', methods=["GET"])
+def get_all_cities():
     try:
         max_number = int(request.args['max'])
 
@@ -45,5 +44,6 @@ def get():
             max_number=max_number, weather_list=weather_list)
 
         return dumps(data)
-    except:
+    except Exception as error:
+        print(error)
         return build_api_response(HTTPStatus.BAD_REQUEST)
